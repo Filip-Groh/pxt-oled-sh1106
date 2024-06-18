@@ -11,11 +11,9 @@
         "README.md",
         "main.ts",
         "_locales/zh/SSD1306_OLED-strings.json",
-        "oled.ts"
+        "sh1106.ts"
     ],
-    "testFiles": [
-        "test.ts"
-    ],
+    "testFiles": [],
     "public": true,
     "targetVersions": {
         "target": "6.0.28",
