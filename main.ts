@@ -123,7 +123,7 @@ class Display {
     }
 
     public clearVLine(x: number): void {
-        SH1106.setColumnAddress(0)
+        SH1106.setColumnAddress(x)
         for (let page: number = 0; page < 8; page++) {
             let buffer: Buffer = pins.createBuffer(1)
             buffer[0] = 0x00
@@ -254,6 +254,9 @@ class Display {
 
 // let display: Display = new Display()
 // display.clear()
+// display.drawHLine(10, 20, 50)
+// display.drawHLine(10, 30, 40)
+// display.clearVLine(20)
 // display.drawVLine(20, 10, 4)
 // display.drawRectangle(5, 5, 132 - 5, 64 - 5)
 // display.drawLine(5, 5, 132 - 5, 64 - 5)
