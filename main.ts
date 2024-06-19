@@ -35,69 +35,72 @@ class Display {
         this.processFont()
     }
 
-    private processFont() {
+    private processFont(): void {
         this.font = pins.createBuffer(this.font_text.length / 2)
         for (let i: number = 0; i < this.font_text.length; i += 2) {
             this.font.setNumber(NumberFormat.UInt8BE, i / 2, parseInt(this.font_text.substr(i, 2), 16))
         }
     }
 
-    public clear() {
+    public clear(): void {
         SH1106.setColumnAddress(0)
         for (let page: number = 0; page < 8; page++) {
-            let buffer = pins.createBuffer(this.width)
+            let buffer: Buffer = pins.createBuffer(this.width)
             buffer.fill(0x00, 0, this.width)
             SH1106.setPageAddress(page)
             this.drawCall(buffer, DrawMode.Overwrite)
         }
     }
 
-    public drawPoint(x: number, y: number) {
+    public drawPoint(x: number, y: number): void {
         SH1106.setColumnAddress(x)
         SH1106.setPageAddress(Math.floor(y / 8))
-        let buffer = pins.createBuffer(1)
+        let buffer: Buffer = pins.createBuffer(1)
         buffer[0] = 2 ** (y % 8)
         this.drawCall(buffer, this.drawMode)
     }
 
-    public drawHLine(x: number, y: number, length: number) {
+    public drawHLine(x: number, y: number, length: number): void {
         SH1106.setPageAddress(Math.floor(y / 8))
         SH1106.setColumnAddress(x)
-        let buffer = pins.createBuffer(length)
+        let buffer: Buffer = pins.createBuffer(length)
         buffer.fill(2 ** (y % 8), 0, length)
         this.drawCall(buffer, this.drawMode)
     }
 
     public drawVLine(x: number, y: number, length: number) {
-        this.drawPoint(x + 2, y)
-        this.drawPoint(x + 2, y + length)
-        SH1106.setColumnAddress(x - 2)
-        for (let i = 0; i < 8; i++) {
-            SH1106.setPageAddress(i)
-            let buffer = pins.createBuffer(1)
-            buffer[0] = 0b10000001
-            this.drawCall(buffer, this.drawMode)
-        }
+        // this.drawPoint(x + 2, y)
+        // this.drawPoint(x + 2, y + length)
+        // SH1106.setColumnAddress(x - 2)
+        // for (let i = 0; i < 8; i++) {
+        //     SH1106.setPageAddress(i)
+        //     let buffer = pins.createBuffer(1)
+        //     buffer[0] = 0b10000001
+        //     this.drawCall(buffer, this.drawMode)
+        // }
 
 
-        let startPage = Math.floor(y / 8)
-        let endPage = Math.ceil((length + y) / 8)
+        // let startPage = Math.floor(y / 8)
+        // let endPage = Math.ceil((length + y) / 8)
 
-        SH1106.setColumnAddress(x)
-        for (let page: number = startPage; page <= endPage; page++) {
-            SH1106.setPageAddress(page)
-            let buffer = pins.createBuffer(1)
-            if (page === startPage && page === endPage) {
-                buffer[0] = (0xFF >> (y - page * 8)) && (0xFF << (7 - (y + length - page * 8)))
-            } else if (page === startPage) {
-                buffer[0] = 0xFF >> (y - page * 8)
-            } else if (page === endPage) {
-                buffer[0] = 0xFF << (7 - (y + length - page * 8))
-            } else {
-                buffer[0] = 0xFF
-            }
-            this.drawCall(buffer, this.drawMode)
-        }
+        // SH1106.setColumnAddress(x)
+        // for (let page: number = startPage; page <= endPage; page++) {
+        //     SH1106.setPageAddress(page)
+        //     let buffer = pins.createBuffer(1)
+        //     if (page === startPage && page === endPage) {
+        //         buffer[0] = (0xFF >> (y - page * 8)) && (0xFF << (7 - (y + length - page * 8)))
+        //     } else if (page === startPage) {
+        //         buffer[0] = 0xFF >> (y - page * 8)
+        //     } else if (page === endPage) {
+        //         buffer[0] = 0xFF << (7 - (y + length - page * 8))
+        //     } else {
+        //         buffer[0] = 0xFF
+        //     }
+        //     this.drawCall(buffer, this.drawMode)
+        // }
+
+
+        
         // export function drawVLine(x: number, y: number, length: number) {
         //     for (let page: number = Math.ceil(y / 8); page < Math.ceil((length + y) / 8); page++) {
         //         SH1106.setPageAddress(page)
@@ -119,7 +122,7 @@ class Display {
         // }
     }
 
-    public drawLine(x0: number, y0: number, x1: number, y1: number) {
+    public drawLine(x0: number, y0: number, x1: number, y1: number): void {
         let pixels: Array<Array<number>> = []
         let kx: number, ky: number, c: number, i: number, xx: number, yy: number, dx: number, dy: number;
         let targetX = x1
@@ -154,15 +157,15 @@ class Display {
         this.drawShape(pixels)
     }
 
-    public drawRectangle(x0: number, y0: number, x1: number, y1: number) {
+    public drawRectangle(x0: number, y0: number, x1: number, y1: number): void {
         this.drawHLine(x0, y0, x1 - x0)
         this.drawHLine(x0, y1, x1 - x0)
         this.drawLine(x0, y0, x0, y1)
         this.drawLine(x1, y0, x1, y1)
     }
 
-    public writeString(x: number, page: number, str: string) {
-        for (let i = 0; i < str.length; i++) {
+    public writeString(x: number, page: number, str: string): void {
+        for (let i: number = 0; i < str.length; i++) {
             if (x > this.width - 6) {
                 page++
             }
@@ -171,7 +174,7 @@ class Display {
         }
     }
 
-    private drawShape(pixels: Array<Array<number>>) {
+    private drawShape(pixels: Array<Array<number>>): void {
         let x1 = this.width
         let y1 = this.height
         let x2 = 0
@@ -212,20 +215,20 @@ class Display {
         }
     }
 
-    private drawChar(x: number, page: number, char: string) {
+    private drawChar(x: number, page: number, char: string): void {
         SH1106.setColumnAddress(x)
         SH1106.setPageAddress(page)
-        let line = pins.createBuffer(6)
-        for (let i = 0; i < 5; i++) {
-            let charIndex = char.charCodeAt(0)
-            let charNumber = this.font.getNumber(NumberFormat.UInt8BE, 5 * charIndex + i)
+        let line: Buffer = pins.createBuffer(6)
+        for (let i: number = 0; i < 5; i++) {
+            let charIndex: number = char.charCodeAt(0)
+            let charNumber: number = this.font.getNumber(NumberFormat.UInt8BE, 5 * charIndex + i)
             line[i] = charNumber
         }
         line[5] = 0x00
         this.drawCall(line, this.drawMode)
     }
 
-    private drawCall(data: Buffer, mode: DrawMode) {
+    private drawCall(data: Buffer, mode: DrawMode): void {
         switch (mode) {
             case DrawMode.Overwrite:
                 SH1106.write(data)
@@ -237,9 +240,9 @@ class Display {
     }
 }
 
-let display: Display = new Display()
-display.clear()
-display.drawVLine(20, 10, 4)
+// let display: Display = new Display()
+// display.clear()
+// display.drawVLine(20, 10, 4)
 // display.drawRectangle(5, 5, 132 - 5, 64 - 5)
 // display.drawLine(5, 5, 132 - 5, 64 - 5)
 // display.writeString(10, 10, "Hello world!")
