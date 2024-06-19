@@ -210,7 +210,6 @@ class Display {
         for (let i: number = 0; i < str.length; i++) {
             if (currentX > this.width - 6) {
                 page++
-                console.logValue("Problém", true)
                 currentX = x
             }
             this.drawChar(currentX, page, str.charAt(i))
@@ -219,7 +218,6 @@ class Display {
     }
 
     private drawChar(x: number, page: number, char: string): void {
-        console.logValue("x", x)
         SH1106.setColumnAddress(x)
         SH1106.setPageAddress(page)
         let line: Buffer = pins.createBuffer(6)
