@@ -122,6 +122,16 @@ class Display {
         // }
     }
 
+    public clearVLine(x: number): void {
+        SH1106.setColumnAddress(0)
+        for (let page: number = 0; page < 8; page++) {
+            let buffer: Buffer = pins.createBuffer(1)
+            buffer[0] = 0x00
+            SH1106.setPageAddress(page)
+            this.drawCall(buffer, DrawMode.Overwrite)
+        }
+    }
+
     public drawLine(x0: number, y0: number, x1: number, y1: number): void {
         let pixels: Array<Array<number>> = []
         let kx: number, ky: number, c: number, i: number, xx: number, yy: number, dx: number, dy: number;
