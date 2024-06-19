@@ -244,8 +244,8 @@ class Display {
     }
 }
 
-let display: Display = new Display()
-display.clear()
+// let display: Display = new Display()
+// display.clear()
 // display.drawVLine(20, 10, 4)
 // display.drawRectangle(5, 5, 132 - 5, 64 - 5)
 // display.drawLine(5, 5, 132 - 5, 64 - 5)
