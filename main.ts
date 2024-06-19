@@ -164,16 +164,6 @@ class Display {
         this.drawLine(x1, y0, x1, y1)
     }
 
-    public writeString(x: number, page: number, str: string): void {
-        for (let i: number = 0; i < str.length; i++) {
-            if (x > this.width - 6) {
-                page++
-            }
-            this.drawChar(x, page, str.charAt(i))
-            x += 6
-        }
-    }
-
     private drawShape(pixels: Array<Array<number>>): void {
         let x1 = this.width
         let y1 = this.height
@@ -215,7 +205,21 @@ class Display {
         }
     }
 
+    public writeString(x: number, page: number, str: string): void {
+        let currentX: number = x
+        for (let i: number = 0; i < str.length; i++) {
+            if (currentX > this.width - 6) {
+                page++
+                console.logValue("Problém", true)
+                currentX = x
+            }
+            this.drawChar(currentX, page, str.charAt(i))
+            currentX += 6
+        }
+    }
+
     private drawChar(x: number, page: number, char: string): void {
+        console.logValue("x", x)
         SH1106.setColumnAddress(x)
         SH1106.setPageAddress(page)
         let line: Buffer = pins.createBuffer(6)
@@ -240,10 +244,10 @@ class Display {
     }
 }
 
-// let display: Display = new Display()
-// display.clear()
+let display: Display = new Display()
+display.clear()
 // display.drawVLine(20, 10, 4)
 // display.drawRectangle(5, 5, 132 - 5, 64 - 5)
 // display.drawLine(5, 5, 132 - 5, 64 - 5)
-// display.writeString(10, 10, "Hello world!")
-// display.drawPoint(10, 10)
+// display.writeString(10, 1, "Hello world!Hello world!")
+// display.drawPoint(50, 10)

@@ -4,13 +4,11 @@
     "description": "Tinkercademy package for SSD1306 OLED controller",
     "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "microphone": "*"
+        "core": "*"
     },
     "files": [
         "README.md",
         "main.ts",
-        "_locales/zh/SSD1306_OLED-strings.json",
         "sh1106.ts"
     ],
     "testFiles": [],

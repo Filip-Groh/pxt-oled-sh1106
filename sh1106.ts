@@ -135,7 +135,7 @@ namespace SH1106 {
 
     export function setColumnAddress(address: number): void {
         address %= 132
-        command(address >> 4 + 0x10)
+        command((address >> 4) + 0x10)
         command(address & 0x0F)
     }
 
@@ -210,12 +210,12 @@ namespace SH1106 {
     export function setDisplayClock(divideRatio: number, oscillatorPercentile: OscillatorPercentile): void {
         divideRatio %= 16
         command(0xD5)
-        command(oscillatorPercentile << 4 + divideRatio)
+        command((oscillatorPercentile << 4) + divideRatio)
     }
 
     export function setPreChargeDisChargePeriod(preCharge: PreCharge, disCharge: DisCharge): void {
         command(0xD9)
-        command(disCharge << 4 + preCharge)
+        command((disCharge << 4) + preCharge)
     }
 
     export function setCommonPadsHardwareConfiguration(padConfiguration: PadConfiguration): void {
