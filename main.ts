@@ -68,60 +68,6 @@ class Display {
         this.drawCall(buffer, this.drawMode)
     }
 
-    public drawVLine(x: number, y: number, length: number) {
-        // this.drawPoint(x + 2, y)
-        // this.drawPoint(x + 2, y + length)
-        // SH1106.setColumnAddress(x - 2)
-        // for (let i = 0; i < 8; i++) {
-        //     SH1106.setPageAddress(i)
-        //     let buffer = pins.createBuffer(1)
-        //     buffer[0] = 0b10000001
-        //     this.drawCall(buffer, this.drawMode)
-        // }
-
-
-        // let startPage = Math.floor(y / 8)
-        // let endPage = Math.ceil((length + y) / 8)
-
-        // SH1106.setColumnAddress(x)
-        // for (let page: number = startPage; page <= endPage; page++) {
-        //     SH1106.setPageAddress(page)
-        //     let buffer = pins.createBuffer(1)
-        //     if (page === startPage && page === endPage) {
-        //         buffer[0] = (0xFF >> (y - page * 8)) && (0xFF << (7 - (y + length - page * 8)))
-        //     } else if (page === startPage) {
-        //         buffer[0] = 0xFF >> (y - page * 8)
-        //     } else if (page === endPage) {
-        //         buffer[0] = 0xFF << (7 - (y + length - page * 8))
-        //     } else {
-        //         buffer[0] = 0xFF
-        //     }
-        //     this.drawCall(buffer, this.drawMode)
-        // }
-
-
-        
-        // export function drawVLine(x: number, y: number, length: number) {
-        //     for (let page: number = Math.ceil(y / 8); page < Math.ceil((length + y) / 8); page++) {
-        //         SH1106.setPageAddress(page)
-        //         SH1106.setColumnAddress(x)
-        //         let buffer = pins.createBuffer(1)
-        //         buffer[0] = 0xFF
-        //         SH1106.write(buffer)
-        //     }
-        // }
-
-        // export function drawVLine(x: number, y: number, length: number) {
-        //     for(let page: number = 0; page < Math.ceil((length - y) / 8); page++) {
-        //         SH1106.setPageAddress(Math.floor(y / 8) + page)
-        //         SH1106.setColumnAddress(x)
-        //         let buffer = pins.createBuffer(1)
-        //         buffer[0] = 0xFF //^ y % 8
-        //         SH1106.write(buffer)
-        //     }
-        // }
-    }
-
     public clearVLine(x: number): void {
         SH1106.setColumnAddress(x)
         for (let page: number = 0; page < 8; page++) {
@@ -251,14 +197,3 @@ class Display {
         }
     }
 }
-
-// let display: Display = new Display()
-// display.clear()
-// display.drawHLine(10, 20, 50)
-// display.drawHLine(10, 30, 40)
-// display.clearVLine(20)
-// display.drawVLine(20, 10, 4)
-// display.drawRectangle(5, 5, 132 - 5, 64 - 5)
-// display.drawLine(5, 5, 132 - 5, 64 - 5)
-// display.writeString(10, 1, "Hello world!Hello world!")
-// display.drawPoint(50, 10)
